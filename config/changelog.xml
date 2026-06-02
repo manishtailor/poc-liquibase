@@ -1,0 +1,75 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- ========================================= -->
+    <!-- DELETE OLD DATA -->
+    <!-- ========================================= -->
+
+    <changeSet id="delete-old-data"
+               author="Tejas"
+               dbms="oracle"
+               runAlways="true">
+
+        <delete tableName="CUSTOMER"/>
+
+        <rollback>
+
+            <loadData
+                    file="scripts/old_file.csv"
+                    tableName="CUSTOMER"
+                    separator=","
+                    encoding="UTF-8">
+
+                <column name="ID" header="ID"/>
+                <column name="NAME" header="NAME"/>
+
+            </loadData>
+
+        </rollback>
+
+    </changeSet>
+
+    <!-- ========================================= -->
+    <!-- LOAD NEW DATA -->
+    <!-- ========================================= -->
+
+    <changeSet id="load-new-data"
+               author="Tejas"
+               dbms="oracle"
+               runAlways="true">
+
+        <loadData
+                file="scripts/new_file.csv"
+                tableName="CUSTOMER"
+                separator=","
+                encoding="UTF-8">
+
+            <column name="ID" header="ID"/>
+            <column name="NAME" header="NAME"/>
+
+        </loadData>
+
+        <rollback>
+
+            <delete tableName="CUSTOMER"/>
+
+            <loadData
+                    file="scripts/old_file.csv"
+                    tableName="CUSTOMER"
+                    separator=","
+                    encoding="UTF-8">
+
+                <column name="ID" header="ID"/>
+                <column name="NAME" header="NAME"/>
+
+            </loadData>
+
+        </rollback>
+
+    </changeSet>
+
+</databaseChangeLog>

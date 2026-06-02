@@ -1,0 +1,14 @@
+services:
+  lobo-db:
+    image: postgres:11-alpine
+    container_name: lobo-db
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - lobo-net
+
+networks:
+  lobo-net:
+    name: lobo-net   # ✅ IMPORTANT (fixed name)
